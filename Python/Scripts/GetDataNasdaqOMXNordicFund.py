@@ -29,12 +29,12 @@ startdate = syear + '-' + smonth + '-' + sday
 stokname = []
 xpaths = []
 
-outfile = open("D:\QuanFin\Data\\listofstocks.dat", 'w')
+outfile = open("D:\QuanFin\Data\\listofstocks.csv", 'w')
 # ========================================================================
 # The list of large companies on the Stockholm stock-market:
 # ========================================================================
-stokname.append("CSE39406") #Sparinvest Index Globale AKT MIN RIS KL
-stokname.append("CSE90733") #Nordea Inv. Globale Aktier Indeks
+stokname.append(("CSE39406","Sparinvest Index Globale AKT MIN RIS KL")) #Sparinvest Index Globale AKT MIN RIS KL
+stokname.append(("CSE90733","Nordea Invest Globale Aktier Indeks")) #Nordea Inv. Globale Aktier Indeks
 #stokname.append("A.P. Møller - Mærsk B")
 #stokname.append("Carlsberg B")
 #stokname.append("Chr. Hansen Holding")
@@ -82,7 +82,7 @@ i = 0
 # ================================================================================================================
 for name in stokname:
 
-    mydriver.get('http://www.nasdaqomxnordic.com/Funds/Historical_Prices?Instrument='+name)
+    mydriver.get('http://www.nasdaqomxnordic.com/Funds/Historical_Prices?Instrument='+name[0])
     time.sleep(2)
 
     #mydriver.find_element_by_xpath('//*[@id="instSearchHistorical"]').send_keys(name)
@@ -106,7 +106,7 @@ for name in stokname:
     mydriver.find_element_by_xpath('//*[@id="exportExcel"]').click()
 
     index = str(i + 1)
-    savefile = 'D:\\QuanFin\\Data\\' + name
+    savefile = 'D:\\QuanFin\\Data\\' + name[1]
     savefile = savefile + '.csv'
 
     k = 0
@@ -126,6 +126,8 @@ for name in stokname:
 
     i = i + 1
     print(name)
+
+    outfile.write(name[0] + "," + name[1] + "\n")
 # Here we close the driver after all the data has been downloaded
 mydriver.close()
 outfile.close()
